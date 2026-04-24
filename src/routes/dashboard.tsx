@@ -26,7 +26,7 @@ export const Route = createFileRoute("/dashboard")({
   component: DashboardLayout,
 });
 
-const NAV = [
+const NAV: Array<{ to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean }> = [
   { to: "/dashboard", label: "Overview", icon: LayoutDashboard, exact: true },
   { to: "/dashboard/recipients", label: "Recipients", icon: Users },
   { to: "/dashboard/payouts", label: "Payouts", icon: Send },
@@ -35,7 +35,7 @@ const NAV = [
   { to: "/dashboard/api-keys", label: "API Keys", icon: KeyRound },
   { to: "/dashboard/monitoring", label: "Monitoring", icon: Activity },
   { to: "/dashboard/settings", label: "Settings", icon: Settings },
-] as const;
+];
 
 function DashboardLayout() {
   const { business, user, loading, signOut, hasRole } = useAuth();
