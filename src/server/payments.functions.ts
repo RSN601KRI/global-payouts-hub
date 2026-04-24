@@ -182,7 +182,8 @@ export const createPayout = createServerFn({ method: "POST" })
       raw_response: result.raw ?? null,
     });
 
-    return { ok: result.status !== "failed", payout_id: payout.id, ...result };
+    const { raw: _raw, ...resultSafe } = result;
+    return { ok: result.status !== "failed", payout_id: payout.id, ...resultSafe };
   });
 
 // ===== Schedules =====
