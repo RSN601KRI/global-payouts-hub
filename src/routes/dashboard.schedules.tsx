@@ -53,7 +53,7 @@ function Schedules() {
       supabase.from("payout_schedules").select("*").eq("business_id", business.id).order("next_run_at"),
       supabase.from("recipients").select("id, name").eq("business_id", business.id).eq("archived", false),
     ]);
-    setList((s ?? []) as Schedule[]);
+    setList((s ?? []) as unknown as Schedule[]);
     setRecipients(r ?? []);
   };
 
