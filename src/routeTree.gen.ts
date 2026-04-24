@@ -23,6 +23,8 @@ import { Route as DashboardRecipientsRouteImport } from './routes/dashboard.reci
 import { Route as DashboardPayoutsRouteImport } from './routes/dashboard.payouts'
 import { Route as DashboardMonitoringRouteImport } from './routes/dashboard.monitoring'
 import { Route as DashboardApiKeysRouteImport } from './routes/dashboard.api-keys'
+import { Route as ApiPublicWebhooksDodoRouteImport } from './routes/api.public.webhooks.dodo'
+import { Route as ApiPublicV1PayoutsRouteImport } from './routes/api.public.v1.payouts'
 
 const PricingRoute = PricingRouteImport.update({
   id: '/pricing',
@@ -94,6 +96,16 @@ const DashboardApiKeysRoute = DashboardApiKeysRouteImport.update({
   path: '/api-keys',
   getParentRoute: () => DashboardRoute,
 } as any)
+const ApiPublicWebhooksDodoRoute = ApiPublicWebhooksDodoRouteImport.update({
+  id: '/api/public/webhooks/dodo',
+  path: '/api/public/webhooks/dodo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicV1PayoutsRoute = ApiPublicV1PayoutsRouteImport.update({
+  id: '/api/public/v1/payouts',
+  path: '/api/public/v1/payouts',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -110,6 +122,8 @@ export interface FileRoutesByFullPath {
   '/dashboard/settings': typeof DashboardSettingsRoute
   '/dashboard/wallets': typeof DashboardWalletsRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/api/public/v1/payouts': typeof ApiPublicV1PayoutsRoute
+  '/api/public/webhooks/dodo': typeof ApiPublicWebhooksDodoRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -125,6 +139,8 @@ export interface FileRoutesByTo {
   '/dashboard/settings': typeof DashboardSettingsRoute
   '/dashboard/wallets': typeof DashboardWalletsRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/api/public/v1/payouts': typeof ApiPublicV1PayoutsRoute
+  '/api/public/webhooks/dodo': typeof ApiPublicWebhooksDodoRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -142,6 +158,8 @@ export interface FileRoutesById {
   '/dashboard/settings': typeof DashboardSettingsRoute
   '/dashboard/wallets': typeof DashboardWalletsRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/api/public/v1/payouts': typeof ApiPublicV1PayoutsRoute
+  '/api/public/webhooks/dodo': typeof ApiPublicWebhooksDodoRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -160,6 +178,8 @@ export interface FileRouteTypes {
     | '/dashboard/settings'
     | '/dashboard/wallets'
     | '/dashboard/'
+    | '/api/public/v1/payouts'
+    | '/api/public/webhooks/dodo'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -175,6 +195,8 @@ export interface FileRouteTypes {
     | '/dashboard/settings'
     | '/dashboard/wallets'
     | '/dashboard'
+    | '/api/public/v1/payouts'
+    | '/api/public/webhooks/dodo'
   id:
     | '__root__'
     | '/'
@@ -191,6 +213,8 @@ export interface FileRouteTypes {
     | '/dashboard/settings'
     | '/dashboard/wallets'
     | '/dashboard/'
+    | '/api/public/v1/payouts'
+    | '/api/public/webhooks/dodo'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -200,6 +224,8 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRouteWithChildren
   FeaturesRoute: typeof FeaturesRoute
   PricingRoute: typeof PricingRoute
+  ApiPublicV1PayoutsRoute: typeof ApiPublicV1PayoutsRoute
+  ApiPublicWebhooksDodoRoute: typeof ApiPublicWebhooksDodoRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -302,6 +328,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardApiKeysRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/api/public/webhooks/dodo': {
+      id: '/api/public/webhooks/dodo'
+      path: '/api/public/webhooks/dodo'
+      fullPath: '/api/public/webhooks/dodo'
+      preLoaderRoute: typeof ApiPublicWebhooksDodoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/v1/payouts': {
+      id: '/api/public/v1/payouts'
+      path: '/api/public/v1/payouts'
+      fullPath: '/api/public/v1/payouts'
+      preLoaderRoute: typeof ApiPublicV1PayoutsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -338,6 +378,8 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRouteWithChildren,
   FeaturesRoute: FeaturesRoute,
   PricingRoute: PricingRoute,
+  ApiPublicV1PayoutsRoute: ApiPublicV1PayoutsRoute,
+  ApiPublicWebhooksDodoRoute: ApiPublicWebhooksDodoRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
