@@ -16,6 +16,13 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
+import { Route as DashboardWalletsRouteImport } from './routes/dashboard.wallets'
+import { Route as DashboardSettingsRouteImport } from './routes/dashboard.settings'
+import { Route as DashboardSchedulesRouteImport } from './routes/dashboard.schedules'
+import { Route as DashboardRecipientsRouteImport } from './routes/dashboard.recipients'
+import { Route as DashboardPayoutsRouteImport } from './routes/dashboard.payouts'
+import { Route as DashboardMonitoringRouteImport } from './routes/dashboard.monitoring'
+import { Route as DashboardApiKeysRouteImport } from './routes/dashboard.api-keys'
 
 const PricingRoute = PricingRouteImport.update({
   id: '/pricing',
@@ -52,6 +59,41 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
   path: '/',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardWalletsRoute = DashboardWalletsRouteImport.update({
+  id: '/wallets',
+  path: '/wallets',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardSettingsRoute = DashboardSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardSchedulesRoute = DashboardSchedulesRouteImport.update({
+  id: '/schedules',
+  path: '/schedules',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardRecipientsRoute = DashboardRecipientsRouteImport.update({
+  id: '/recipients',
+  path: '/recipients',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardPayoutsRoute = DashboardPayoutsRouteImport.update({
+  id: '/payouts',
+  path: '/payouts',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardMonitoringRoute = DashboardMonitoringRouteImport.update({
+  id: '/monitoring',
+  path: '/monitoring',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardApiKeysRoute = DashboardApiKeysRouteImport.update({
+  id: '/api-keys',
+  path: '/api-keys',
+  getParentRoute: () => DashboardRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -60,6 +102,13 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRouteWithChildren
   '/features': typeof FeaturesRoute
   '/pricing': typeof PricingRoute
+  '/dashboard/api-keys': typeof DashboardApiKeysRoute
+  '/dashboard/monitoring': typeof DashboardMonitoringRoute
+  '/dashboard/payouts': typeof DashboardPayoutsRoute
+  '/dashboard/recipients': typeof DashboardRecipientsRoute
+  '/dashboard/schedules': typeof DashboardSchedulesRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
+  '/dashboard/wallets': typeof DashboardWalletsRoute
   '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRoutesByTo {
@@ -68,6 +117,13 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/features': typeof FeaturesRoute
   '/pricing': typeof PricingRoute
+  '/dashboard/api-keys': typeof DashboardApiKeysRoute
+  '/dashboard/monitoring': typeof DashboardMonitoringRoute
+  '/dashboard/payouts': typeof DashboardPayoutsRoute
+  '/dashboard/recipients': typeof DashboardRecipientsRoute
+  '/dashboard/schedules': typeof DashboardSchedulesRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
+  '/dashboard/wallets': typeof DashboardWalletsRoute
   '/dashboard': typeof DashboardIndexRoute
 }
 export interface FileRoutesById {
@@ -78,6 +134,13 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRouteWithChildren
   '/features': typeof FeaturesRoute
   '/pricing': typeof PricingRoute
+  '/dashboard/api-keys': typeof DashboardApiKeysRoute
+  '/dashboard/monitoring': typeof DashboardMonitoringRoute
+  '/dashboard/payouts': typeof DashboardPayoutsRoute
+  '/dashboard/recipients': typeof DashboardRecipientsRoute
+  '/dashboard/schedules': typeof DashboardSchedulesRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
+  '/dashboard/wallets': typeof DashboardWalletsRoute
   '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRouteTypes {
@@ -89,9 +152,29 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/features'
     | '/pricing'
+    | '/dashboard/api-keys'
+    | '/dashboard/monitoring'
+    | '/dashboard/payouts'
+    | '/dashboard/recipients'
+    | '/dashboard/schedules'
+    | '/dashboard/settings'
+    | '/dashboard/wallets'
     | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/contact' | '/features' | '/pricing' | '/dashboard'
+  to:
+    | '/'
+    | '/auth'
+    | '/contact'
+    | '/features'
+    | '/pricing'
+    | '/dashboard/api-keys'
+    | '/dashboard/monitoring'
+    | '/dashboard/payouts'
+    | '/dashboard/recipients'
+    | '/dashboard/schedules'
+    | '/dashboard/settings'
+    | '/dashboard/wallets'
+    | '/dashboard'
   id:
     | '__root__'
     | '/'
@@ -100,6 +183,13 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/features'
     | '/pricing'
+    | '/dashboard/api-keys'
+    | '/dashboard/monitoring'
+    | '/dashboard/payouts'
+    | '/dashboard/recipients'
+    | '/dashboard/schedules'
+    | '/dashboard/settings'
+    | '/dashboard/wallets'
     | '/dashboard/'
   fileRoutesById: FileRoutesById
 }
@@ -163,14 +253,77 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardIndexRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/wallets': {
+      id: '/dashboard/wallets'
+      path: '/wallets'
+      fullPath: '/dashboard/wallets'
+      preLoaderRoute: typeof DashboardWalletsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/settings': {
+      id: '/dashboard/settings'
+      path: '/settings'
+      fullPath: '/dashboard/settings'
+      preLoaderRoute: typeof DashboardSettingsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/schedules': {
+      id: '/dashboard/schedules'
+      path: '/schedules'
+      fullPath: '/dashboard/schedules'
+      preLoaderRoute: typeof DashboardSchedulesRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/recipients': {
+      id: '/dashboard/recipients'
+      path: '/recipients'
+      fullPath: '/dashboard/recipients'
+      preLoaderRoute: typeof DashboardRecipientsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/payouts': {
+      id: '/dashboard/payouts'
+      path: '/payouts'
+      fullPath: '/dashboard/payouts'
+      preLoaderRoute: typeof DashboardPayoutsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/monitoring': {
+      id: '/dashboard/monitoring'
+      path: '/monitoring'
+      fullPath: '/dashboard/monitoring'
+      preLoaderRoute: typeof DashboardMonitoringRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/api-keys': {
+      id: '/dashboard/api-keys'
+      path: '/api-keys'
+      fullPath: '/dashboard/api-keys'
+      preLoaderRoute: typeof DashboardApiKeysRouteImport
+      parentRoute: typeof DashboardRoute
+    }
   }
 }
 
 interface DashboardRouteChildren {
+  DashboardApiKeysRoute: typeof DashboardApiKeysRoute
+  DashboardMonitoringRoute: typeof DashboardMonitoringRoute
+  DashboardPayoutsRoute: typeof DashboardPayoutsRoute
+  DashboardRecipientsRoute: typeof DashboardRecipientsRoute
+  DashboardSchedulesRoute: typeof DashboardSchedulesRoute
+  DashboardSettingsRoute: typeof DashboardSettingsRoute
+  DashboardWalletsRoute: typeof DashboardWalletsRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardApiKeysRoute: DashboardApiKeysRoute,
+  DashboardMonitoringRoute: DashboardMonitoringRoute,
+  DashboardPayoutsRoute: DashboardPayoutsRoute,
+  DashboardRecipientsRoute: DashboardRecipientsRoute,
+  DashboardSchedulesRoute: DashboardSchedulesRoute,
+  DashboardSettingsRoute: DashboardSettingsRoute,
+  DashboardWalletsRoute: DashboardWalletsRoute,
   DashboardIndexRoute: DashboardIndexRoute,
 }
 
@@ -189,3 +342,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
