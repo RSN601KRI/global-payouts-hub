@@ -11,8 +11,20 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as FeaturesRouteImport } from './routes/features'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
+import { Route as DashboardWalletsRouteImport } from './routes/dashboard.wallets'
+import { Route as DashboardSettingsRouteImport } from './routes/dashboard.settings'
+import { Route as DashboardSchedulesRouteImport } from './routes/dashboard.schedules'
+import { Route as DashboardRecipientsRouteImport } from './routes/dashboard.recipients'
+import { Route as DashboardPayoutsRouteImport } from './routes/dashboard.payouts'
+import { Route as DashboardMonitoringRouteImport } from './routes/dashboard.monitoring'
+import { Route as DashboardApiKeysRouteImport } from './routes/dashboard.api-keys'
+import { Route as ApiPublicWebhooksDodoRouteImport } from './routes/api.public.webhooks.dodo'
+import { Route as ApiPublicV1PayoutsRouteImport } from './routes/api.public.v1.payouts'
 
 const PricingRoute = PricingRouteImport.update({
   id: '/pricing',
@@ -24,9 +36,19 @@ const FeaturesRoute = FeaturesRouteImport.update({
   path: '/features',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -34,39 +56,176 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardWalletsRoute = DashboardWalletsRouteImport.update({
+  id: '/wallets',
+  path: '/wallets',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardSettingsRoute = DashboardSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardSchedulesRoute = DashboardSchedulesRouteImport.update({
+  id: '/schedules',
+  path: '/schedules',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardRecipientsRoute = DashboardRecipientsRouteImport.update({
+  id: '/recipients',
+  path: '/recipients',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardPayoutsRoute = DashboardPayoutsRouteImport.update({
+  id: '/payouts',
+  path: '/payouts',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardMonitoringRoute = DashboardMonitoringRouteImport.update({
+  id: '/monitoring',
+  path: '/monitoring',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardApiKeysRoute = DashboardApiKeysRouteImport.update({
+  id: '/api-keys',
+  path: '/api-keys',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const ApiPublicWebhooksDodoRoute = ApiPublicWebhooksDodoRouteImport.update({
+  id: '/api/public/webhooks/dodo',
+  path: '/api/public/webhooks/dodo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicV1PayoutsRoute = ApiPublicV1PayoutsRouteImport.update({
+  id: '/api/public/v1/payouts',
+  path: '/api/public/v1/payouts',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRouteWithChildren
   '/features': typeof FeaturesRoute
   '/pricing': typeof PricingRoute
+  '/dashboard/api-keys': typeof DashboardApiKeysRoute
+  '/dashboard/monitoring': typeof DashboardMonitoringRoute
+  '/dashboard/payouts': typeof DashboardPayoutsRoute
+  '/dashboard/recipients': typeof DashboardRecipientsRoute
+  '/dashboard/schedules': typeof DashboardSchedulesRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
+  '/dashboard/wallets': typeof DashboardWalletsRoute
+  '/dashboard/': typeof DashboardIndexRoute
+  '/api/public/v1/payouts': typeof ApiPublicV1PayoutsRoute
+  '/api/public/webhooks/dodo': typeof ApiPublicWebhooksDodoRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/features': typeof FeaturesRoute
   '/pricing': typeof PricingRoute
+  '/dashboard/api-keys': typeof DashboardApiKeysRoute
+  '/dashboard/monitoring': typeof DashboardMonitoringRoute
+  '/dashboard/payouts': typeof DashboardPayoutsRoute
+  '/dashboard/recipients': typeof DashboardRecipientsRoute
+  '/dashboard/schedules': typeof DashboardSchedulesRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
+  '/dashboard/wallets': typeof DashboardWalletsRoute
+  '/dashboard': typeof DashboardIndexRoute
+  '/api/public/v1/payouts': typeof ApiPublicV1PayoutsRoute
+  '/api/public/webhooks/dodo': typeof ApiPublicWebhooksDodoRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRouteWithChildren
   '/features': typeof FeaturesRoute
   '/pricing': typeof PricingRoute
+  '/dashboard/api-keys': typeof DashboardApiKeysRoute
+  '/dashboard/monitoring': typeof DashboardMonitoringRoute
+  '/dashboard/payouts': typeof DashboardPayoutsRoute
+  '/dashboard/recipients': typeof DashboardRecipientsRoute
+  '/dashboard/schedules': typeof DashboardSchedulesRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
+  '/dashboard/wallets': typeof DashboardWalletsRoute
+  '/dashboard/': typeof DashboardIndexRoute
+  '/api/public/v1/payouts': typeof ApiPublicV1PayoutsRoute
+  '/api/public/webhooks/dodo': typeof ApiPublicWebhooksDodoRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/contact' | '/features' | '/pricing'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/contact'
+    | '/dashboard'
+    | '/features'
+    | '/pricing'
+    | '/dashboard/api-keys'
+    | '/dashboard/monitoring'
+    | '/dashboard/payouts'
+    | '/dashboard/recipients'
+    | '/dashboard/schedules'
+    | '/dashboard/settings'
+    | '/dashboard/wallets'
+    | '/dashboard/'
+    | '/api/public/v1/payouts'
+    | '/api/public/webhooks/dodo'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/contact' | '/features' | '/pricing'
-  id: '__root__' | '/' | '/contact' | '/features' | '/pricing'
+  to:
+    | '/'
+    | '/auth'
+    | '/contact'
+    | '/features'
+    | '/pricing'
+    | '/dashboard/api-keys'
+    | '/dashboard/monitoring'
+    | '/dashboard/payouts'
+    | '/dashboard/recipients'
+    | '/dashboard/schedules'
+    | '/dashboard/settings'
+    | '/dashboard/wallets'
+    | '/dashboard'
+    | '/api/public/v1/payouts'
+    | '/api/public/webhooks/dodo'
+  id:
+    | '__root__'
+    | '/'
+    | '/auth'
+    | '/contact'
+    | '/dashboard'
+    | '/features'
+    | '/pricing'
+    | '/dashboard/api-keys'
+    | '/dashboard/monitoring'
+    | '/dashboard/payouts'
+    | '/dashboard/recipients'
+    | '/dashboard/schedules'
+    | '/dashboard/settings'
+    | '/dashboard/wallets'
+    | '/dashboard/'
+    | '/api/public/v1/payouts'
+    | '/api/public/webhooks/dodo'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
+  DashboardRoute: typeof DashboardRouteWithChildren
   FeaturesRoute: typeof FeaturesRoute
   PricingRoute: typeof PricingRoute
+  ApiPublicV1PayoutsRoute: typeof ApiPublicV1PayoutsRoute
+  ApiPublicWebhooksDodoRoute: typeof ApiPublicWebhooksDodoRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -85,11 +244,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FeaturesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -99,14 +272,114 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/wallets': {
+      id: '/dashboard/wallets'
+      path: '/wallets'
+      fullPath: '/dashboard/wallets'
+      preLoaderRoute: typeof DashboardWalletsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/settings': {
+      id: '/dashboard/settings'
+      path: '/settings'
+      fullPath: '/dashboard/settings'
+      preLoaderRoute: typeof DashboardSettingsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/schedules': {
+      id: '/dashboard/schedules'
+      path: '/schedules'
+      fullPath: '/dashboard/schedules'
+      preLoaderRoute: typeof DashboardSchedulesRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/recipients': {
+      id: '/dashboard/recipients'
+      path: '/recipients'
+      fullPath: '/dashboard/recipients'
+      preLoaderRoute: typeof DashboardRecipientsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/payouts': {
+      id: '/dashboard/payouts'
+      path: '/payouts'
+      fullPath: '/dashboard/payouts'
+      preLoaderRoute: typeof DashboardPayoutsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/monitoring': {
+      id: '/dashboard/monitoring'
+      path: '/monitoring'
+      fullPath: '/dashboard/monitoring'
+      preLoaderRoute: typeof DashboardMonitoringRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/api-keys': {
+      id: '/dashboard/api-keys'
+      path: '/api-keys'
+      fullPath: '/dashboard/api-keys'
+      preLoaderRoute: typeof DashboardApiKeysRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/api/public/webhooks/dodo': {
+      id: '/api/public/webhooks/dodo'
+      path: '/api/public/webhooks/dodo'
+      fullPath: '/api/public/webhooks/dodo'
+      preLoaderRoute: typeof ApiPublicWebhooksDodoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/v1/payouts': {
+      id: '/api/public/v1/payouts'
+      path: '/api/public/v1/payouts'
+      fullPath: '/api/public/v1/payouts'
+      preLoaderRoute: typeof ApiPublicV1PayoutsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
+interface DashboardRouteChildren {
+  DashboardApiKeysRoute: typeof DashboardApiKeysRoute
+  DashboardMonitoringRoute: typeof DashboardMonitoringRoute
+  DashboardPayoutsRoute: typeof DashboardPayoutsRoute
+  DashboardRecipientsRoute: typeof DashboardRecipientsRoute
+  DashboardSchedulesRoute: typeof DashboardSchedulesRoute
+  DashboardSettingsRoute: typeof DashboardSettingsRoute
+  DashboardWalletsRoute: typeof DashboardWalletsRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
+}
+
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardApiKeysRoute: DashboardApiKeysRoute,
+  DashboardMonitoringRoute: DashboardMonitoringRoute,
+  DashboardPayoutsRoute: DashboardPayoutsRoute,
+  DashboardRecipientsRoute: DashboardRecipientsRoute,
+  DashboardSchedulesRoute: DashboardSchedulesRoute,
+  DashboardSettingsRoute: DashboardSettingsRoute,
+  DashboardWalletsRoute: DashboardWalletsRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
+}
+
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
+  DashboardRoute: DashboardRouteWithChildren,
   FeaturesRoute: FeaturesRoute,
   PricingRoute: PricingRoute,
+  ApiPublicV1PayoutsRoute: ApiPublicV1PayoutsRoute,
+  ApiPublicWebhooksDodoRoute: ApiPublicWebhooksDodoRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

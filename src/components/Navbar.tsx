@@ -38,12 +38,16 @@ export function Navbar() {
         </div>
 
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="sm" className="hidden sm:inline-flex">
-            Sign in
-          </Button>
-          <Button variant="hero" size="sm">
-            Get started
-          </Button>
+          <Link to="/auth">
+            <Button variant="ghost" size="sm" className="hidden sm:inline-flex">
+              Sign in
+            </Button>
+          </Link>
+          <Link to="/auth">
+            <Button variant="hero" size="sm">
+              Get started
+            </Button>
+          </Link>
         </div>
       </nav>
     </header>
