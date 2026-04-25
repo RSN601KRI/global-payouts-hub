@@ -7,9 +7,11 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Reveal, StaggerGroup, StaggerItem } from "@/components/Motion";
+import { motion } from "framer-motion";
 import { submitKyc } from "@/server/payments.functions";
 import { toast } from "sonner";
-import { ArrowUpRight, DollarSign, Send, TrendingUp, Users, AlertTriangle } from "lucide-react";
+import { ArrowUpRight, DollarSign, Send, TrendingUp, Users, AlertTriangle, Activity } from "lucide-react";
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, AreaChart, Area } from "recharts";
 
 export const Route = createFileRoute("/dashboard/")({
@@ -58,7 +60,6 @@ function Overview() {
         failures: failed.length,
       });
 
-      // 14-day series
       const map = new Map<string, { usd: number; count: number }>();
       const now = new Date();
       for (let i = 13; i >= 0; i--) {
@@ -95,136 +96,187 @@ function Overview() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Overview</h1>
-          <p className="text-muted-foreground text-sm">Cross-border stablecoin payouts at a glance.</p>
+      <Reveal>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-semibold tracking-tight">Overview</h1>
+            <p className="text-muted-foreground text-sm mt-1">Cross-border stablecoin payouts at a glance.</p>
+          </div>
+          <Badge variant="outline" className="gap-1.5 py-1">
+            <span className="relative flex size-1.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-mint opacity-75" />
+              <span className="relative inline-flex size-1.5 rounded-full bg-mint" />
+            </span>
+            Solana devnet · Dodo Test
+          </Badge>
         </div>
-        <Badge variant="outline" className="gap-1">
-          <span className="size-1.5 rounded-full bg-emerald-500" />
-          Solana devnet · Dodo Test
-        </Badge>
-      </div>
+      </Reveal>
 
       {business?.kyc_status !== "approved" && hasRole("admin") && (
-        <Card className="border-amber-500/30 bg-amber-500/5">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-base">
-              <AlertTriangle className="size-4 text-amber-500" />
-              Complete KYC to unlock fiat payouts
-            </CardTitle>
-            <CardDescription>
-              Crypto rails work without KYC, but Dodo Payments requires verified business info.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={onSubmitKyc} className="grid gap-3 sm:grid-cols-3">
-              <div className="space-y-1.5 sm:col-span-2">
-                <Label>Legal business name</Label>
-                <Input value={legalName} onChange={(e) => setLegalName(e.target.value)} required minLength={2} />
-              </div>
-              <div className="space-y-1.5">
-                <Label>Country (ISO-2)</Label>
-                <Input value={country} onChange={(e) => setCountry(e.target.value)} required maxLength={2} placeholder="US" />
-              </div>
-              <Button type="submit" disabled={submitting} className="sm:col-span-3" variant="hero">
-                Submit for verification
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
+        <Reveal>
+          <Card className="border-amber-500/30 bg-amber-500/5 overflow-hidden relative">
+            <div className="absolute inset-0 animate-shimmer pointer-events-none" />
+            <CardHeader className="relative">
+              <CardTitle className="flex items-center gap-2 text-base">
+                <AlertTriangle className="size-4 text-amber-500" />
+                Complete KYC to unlock fiat payouts
+              </CardTitle>
+              <CardDescription>
+                Crypto rails work without KYC, but Dodo Payments requires verified business info.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="relative">
+              <form onSubmit={onSubmitKyc} className="grid gap-3 sm:grid-cols-3">
+                <div className="space-y-1.5 sm:col-span-2">
+                  <Label>Legal business name</Label>
+                  <Input value={legalName} onChange={(e) => setLegalName(e.target.value)} required minLength={2} />
+                </div>
+                <div className="space-y-1.5">
+                  <Label>Country (ISO-2)</Label>
+                  <Input value={country} onChange={(e) => setCountry(e.target.value)} required maxLength={2} placeholder="US" />
+                </div>
+                <Button type="submit" disabled={submitting} className="sm:col-span-3" variant="hero">
+                  Submit for verification
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
+        </Reveal>
       )}
 
-      <div className="grid gap-4 md:grid-cols-4">
-        <StatCard icon={DollarSign} label="Total sent" value={`$${stats.totalSent.toLocaleString(undefined, { maximumFractionDigits: 2 })}`} />
-        <StatCard icon={Send} label="Payouts" value={stats.payoutCount.toString()} />
-        <StatCard icon={Users} label="Recipients" value={stats.recipientCount.toString()} />
-        <StatCard icon={TrendingUp} label="Success rate" value={`${stats.successRate.toFixed(1)}%`} sub={stats.failures > 0 ? `${stats.failures} failed` : undefined} />
-      </div>
+      <StaggerGroup className="grid gap-4 md:grid-cols-4">
+        <StaggerItem><StatCard icon={DollarSign} label="Total sent" value={`$${stats.totalSent.toLocaleString(undefined, { maximumFractionDigits: 2 })}`} trend="+12.4%" /></StaggerItem>
+        <StaggerItem><StatCard icon={Send} label="Payouts" value={stats.payoutCount.toString()} trend="+8" /></StaggerItem>
+        <StaggerItem><StatCard icon={Users} label="Recipients" value={stats.recipientCount.toString()} /></StaggerItem>
+        <StaggerItem><StatCard icon={TrendingUp} label="Success rate" value={`${stats.successRate.toFixed(1)}%`} sub={stats.failures > 0 ? `${stats.failures} failed` : "all healthy"} /></StaggerItem>
+      </StaggerGroup>
 
-      <div className="grid gap-4 lg:grid-cols-3">
-        <Card className="lg:col-span-2">
-          <CardHeader>
-            <CardTitle className="text-base">Volume — last 14 days</CardTitle>
-          </CardHeader>
-          <CardContent className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={series}>
-                <defs>
-                  <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.4} />
-                    <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
-                <XAxis dataKey="day" stroke="hsl(var(--muted-foreground))" fontSize={11} />
-                <YAxis stroke="hsl(var(--muted-foreground))" fontSize={11} />
-                <Tooltip contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 8 }} />
-                <Area type="monotone" dataKey="usd" stroke="hsl(var(--primary))" fill="url(#g)" strokeWidth={2} />
-              </AreaChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">Transaction count</CardTitle>
-          </CardHeader>
-          <CardContent className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={series}>
-                <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
-                <XAxis dataKey="day" stroke="hsl(var(--muted-foreground))" fontSize={11} />
-                <YAxis stroke="hsl(var(--muted-foreground))" fontSize={11} />
-                <Tooltip contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 8 }} />
-                <Line type="monotone" dataKey="count" stroke="hsl(var(--accent))" strokeWidth={2} dot={false} />
-              </LineChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-      </div>
+      <Reveal delay={0.1}>
+        <div className="grid gap-4 lg:grid-cols-3">
+          <Card className="lg:col-span-2 glass overflow-hidden">
+            <CardHeader className="flex-row items-center justify-between">
+              <div>
+                <CardTitle className="text-base">Volume</CardTitle>
+                <CardDescription>Last 14 days, USD-equivalent</CardDescription>
+              </div>
+              <Badge variant="secondary" className="text-[10px] gap-1">
+                <Activity className="size-2.5" /> Live
+              </Badge>
+            </CardHeader>
+            <CardContent className="h-72">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={series}>
+                  <defs>
+                    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="oklch(0.7 0.18 265)" stopOpacity={0.5} />
+                      <stop offset="95%" stopColor="oklch(0.7 0.18 265)" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.4 0.04 265 / 0.2)" />
+                  <XAxis dataKey="day" stroke="oklch(0.7 0.02 260)" fontSize={11} />
+                  <YAxis stroke="oklch(0.7 0.02 260)" fontSize={11} />
+                  <Tooltip
+                    contentStyle={{
+                      background: "oklch(0.18 0.03 265 / 0.95)",
+                      border: "1px solid oklch(0.4 0.04 265 / 0.4)",
+                      borderRadius: 10,
+                      fontSize: 12,
+                      backdropFilter: "blur(12px)",
+                    }}
+                  />
+                  <Area type="monotone" dataKey="usd" stroke="oklch(0.7 0.18 265)" fill="url(#g)" strokeWidth={2} />
+                </AreaChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+          <Card className="glass">
+            <CardHeader>
+              <CardTitle className="text-base">Transaction count</CardTitle>
+              <CardDescription>Daily payout volume</CardDescription>
+            </CardHeader>
+            <CardContent className="h-72">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={series}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.4 0.04 265 / 0.2)" />
+                  <XAxis dataKey="day" stroke="oklch(0.7 0.02 260)" fontSize={11} />
+                  <YAxis stroke="oklch(0.7 0.02 260)" fontSize={11} />
+                  <Tooltip
+                    contentStyle={{
+                      background: "oklch(0.18 0.03 265 / 0.95)",
+                      border: "1px solid oklch(0.4 0.04 265 / 0.4)",
+                      borderRadius: 10,
+                      fontSize: 12,
+                    }}
+                  />
+                  <Line type="monotone" dataKey="count" stroke="oklch(0.78 0.15 220)" strokeWidth={2} dot={false} />
+                </LineChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        </div>
+      </Reveal>
 
-      <Card>
-        <CardHeader className="flex-row items-center justify-between">
-          <div>
-            <CardTitle className="text-base">Recent payouts</CardTitle>
-            <CardDescription>Latest 6 transactions across rails</CardDescription>
-          </div>
-        </CardHeader>
-        <CardContent>
-          {recent.length === 0 ? (
-            <div className="text-sm text-muted-foreground py-8 text-center">No payouts yet.</div>
-          ) : (
-            <div className="divide-y divide-border/50">
-              {recent.map((p) => (
-                <div key={p.id} className="flex items-center justify-between py-3">
-                  <div>
-                    <div className="text-sm font-medium">{Number(p.amount).toLocaleString()} {p.currency}</div>
-                    <div className="text-xs text-muted-foreground">{new Date(p.created_at).toLocaleString()} · {p.resolved_rail ?? "—"}</div>
-                  </div>
-                  <Badge variant={p.status === "completed" ? "default" : p.status === "failed" ? "destructive" : "secondary"}>
-                    {p.status}
-                  </Badge>
-                </div>
-              ))}
+      <Reveal delay={0.15}>
+        <Card className="glass">
+          <CardHeader className="flex-row items-center justify-between">
+            <div>
+              <CardTitle className="text-base">Recent payouts</CardTitle>
+              <CardDescription>Latest 6 transactions across rails</CardDescription>
             </div>
-          )}
-        </CardContent>
-      </Card>
+          </CardHeader>
+          <CardContent>
+            {recent.length === 0 ? (
+              <div className="text-sm text-muted-foreground py-12 text-center">
+                No payouts yet — send your first stablecoin transfer.
+              </div>
+            ) : (
+              <div className="divide-y divide-border/40">
+                {recent.map((p) => (
+                  <motion.div
+                    key={p.id}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="flex items-center justify-between py-3"
+                  >
+                    <div>
+                      <div className="text-sm font-medium">{Number(p.amount).toLocaleString()} {p.currency}</div>
+                      <div className="text-xs text-muted-foreground mt-0.5">
+                        {new Date(p.created_at).toLocaleString()} · {p.resolved_rail ?? "—"}
+                      </div>
+                    </div>
+                    <Badge variant={p.status === "completed" ? "default" : p.status === "failed" ? "destructive" : "secondary"}>
+                      {p.status}
+                    </Badge>
+                  </motion.div>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </Reveal>
     </div>
   );
 }
 
-function StatCard({ icon: Icon, label, value, sub }: { icon: typeof ArrowUpRight; label: string; value: string; sub?: string }) {
+function StatCard({ icon: Icon, label, value, sub, trend }: { icon: typeof ArrowUpRight; label: string; value: string; sub?: string; trend?: string }) {
   return (
-    <Card>
-      <CardContent className="pt-6">
-        <div className="flex items-center justify-between">
-          <div className="text-xs text-muted-foreground">{label}</div>
-          <Icon className="size-4 text-muted-foreground" />
-        </div>
-        <div className="mt-2 text-2xl font-semibold">{value}</div>
-        {sub && <div className="text-xs text-muted-foreground mt-1">{sub}</div>}
-      </CardContent>
-    </Card>
+    <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
+      <Card className="glass relative overflow-hidden h-full">
+        <div className="absolute -top-12 -right-12 size-32 rounded-full bg-primary/5 blur-2xl" />
+        <CardContent className="pt-6 relative">
+          <div className="flex items-center justify-between">
+            <div className="text-xs text-muted-foreground">{label}</div>
+            <div className="size-7 rounded-md bg-primary/10 flex items-center justify-center">
+              <Icon className="size-3.5 text-primary" />
+            </div>
+          </div>
+          <div className="mt-3 text-2xl font-semibold tracking-tight">{value}</div>
+          <div className="flex items-center gap-2 mt-1">
+            {trend && <span className="text-[11px] text-mint font-medium">{trend}</span>}
+            {sub && <span className="text-[11px] text-muted-foreground">{sub}</span>}
+          </div>
+        </CardContent>
+      </Card>
+    </motion.div>
   );
 }
