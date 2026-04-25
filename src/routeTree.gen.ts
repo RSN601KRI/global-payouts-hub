@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as FeaturesRouteImport } from './routes/features'
+import { Route as DocsRouteImport } from './routes/docs'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AuthRouteImport } from './routes/auth'
@@ -34,6 +35,11 @@ const PricingRoute = PricingRouteImport.update({
 const FeaturesRoute = FeaturesRouteImport.update({
   id: '/features',
   path: '/features',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocsRoute = DocsRouteImport.update({
+  id: '/docs',
+  path: '/docs',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -112,6 +118,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRouteWithChildren
+  '/docs': typeof DocsRoute
   '/features': typeof FeaturesRoute
   '/pricing': typeof PricingRoute
   '/dashboard/api-keys': typeof DashboardApiKeysRoute
@@ -129,6 +136,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
+  '/docs': typeof DocsRoute
   '/features': typeof FeaturesRoute
   '/pricing': typeof PricingRoute
   '/dashboard/api-keys': typeof DashboardApiKeysRoute
@@ -148,6 +156,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRouteWithChildren
+  '/docs': typeof DocsRoute
   '/features': typeof FeaturesRoute
   '/pricing': typeof PricingRoute
   '/dashboard/api-keys': typeof DashboardApiKeysRoute
@@ -168,6 +177,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/dashboard'
+    | '/docs'
     | '/features'
     | '/pricing'
     | '/dashboard/api-keys'
@@ -185,6 +195,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/contact'
+    | '/docs'
     | '/features'
     | '/pricing'
     | '/dashboard/api-keys'
@@ -203,6 +214,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/dashboard'
+    | '/docs'
     | '/features'
     | '/pricing'
     | '/dashboard/api-keys'
@@ -222,6 +234,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
   DashboardRoute: typeof DashboardRouteWithChildren
+  DocsRoute: typeof DocsRoute
   FeaturesRoute: typeof FeaturesRoute
   PricingRoute: typeof PricingRoute
   ApiPublicV1PayoutsRoute: typeof ApiPublicV1PayoutsRoute
@@ -242,6 +255,13 @@ declare module '@tanstack/react-router' {
       path: '/features'
       fullPath: '/features'
       preLoaderRoute: typeof FeaturesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/docs': {
+      id: '/docs'
+      path: '/docs'
+      fullPath: '/docs'
+      preLoaderRoute: typeof DocsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -376,6 +396,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
   DashboardRoute: DashboardRouteWithChildren,
+  DocsRoute: DocsRoute,
   FeaturesRoute: FeaturesRoute,
   PricingRoute: PricingRoute,
   ApiPublicV1PayoutsRoute: ApiPublicV1PayoutsRoute,
