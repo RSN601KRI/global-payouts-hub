@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { Zap, Github, Twitter } from "lucide-react";
+import { Github, Twitter } from "lucide-react";
+import logoMark from "@/assets/logo-mark.png";
 
 export function Footer() {
   return (
@@ -7,9 +8,17 @@ export function Footer() {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-px hairline" />
       <div className="mx-auto max-w-7xl px-6 py-16 grid grid-cols-2 md:grid-cols-5 gap-10">
         <div className="col-span-2">
-          <div className="flex items-center gap-2 mb-4">
-            <div className="size-8 rounded-lg gradient-primary flex items-center justify-center">
-              <Zap className="size-4 text-primary-foreground" strokeWidth={2.5} />
+          <div className="flex items-center gap-2.5 mb-4">
+            <div className="relative size-9 flex items-center justify-center">
+              <div className="absolute inset-0 rounded-lg gradient-primary blur-lg opacity-40" />
+              <img
+                src={logoMark}
+                alt="Streamline logo"
+                width={36}
+                height={36}
+                loading="lazy"
+                className="relative size-9 object-contain"
+              />
             </div>
             <span className="font-semibold text-lg tracking-tight">Streamline</span>
           </div>
