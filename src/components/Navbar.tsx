@@ -1,8 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
-import { Zap, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { useState } from "react";
+import logoMark from "@/assets/logo-mark.png";
 
 const links = [
   { to: "/features", label: "Features" },
@@ -32,9 +33,15 @@ export function Navbar() {
         }`}
       >
         <Link to="/" className="flex items-center gap-2.5 group">
-          <div className="relative size-8 rounded-lg gradient-primary flex items-center justify-center group-hover:scale-105 transition-transform">
-            <div className="absolute inset-0 rounded-lg gradient-primary blur-md opacity-50 group-hover:opacity-80 transition-opacity" />
-            <Zap className="relative size-4 text-primary-foreground" strokeWidth={2.5} />
+          <div className="relative size-8 flex items-center justify-center group-hover:scale-105 transition-transform">
+            <div className="absolute inset-0 rounded-lg gradient-primary blur-lg opacity-40 group-hover:opacity-70 transition-opacity" />
+            <img
+              src={logoMark}
+              alt="Streamline logo"
+              width={32}
+              height={32}
+              className="relative size-8 object-contain"
+            />
           </div>
           <span className="font-semibold text-[15px] tracking-tight">Streamline</span>
         </Link>
